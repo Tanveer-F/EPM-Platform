@@ -2,6 +2,8 @@
 
 **Enterprise Predictive Maintenance & Failure Prediction Platform** — a modular Python/Azure Machine Learning project for future industrial equipment failure-risk prediction.
 
+**GitHub repository:** <https://github.com/Tanveer-F/EPM-Platform> (`main`)
+
 ## Implemented phases
 
 - **Phase 1 — complete:** Azure foundation, authentication, configuration and verification. See [Phase 1 evidence](docs/phase-1-validation.md).
@@ -13,12 +15,13 @@
 
 - **Phases 7 + 8 — complete:** selected and registered the XGBoost baseline as Azure ML model `epm-cmapss-rul-xgboost:1`, preserving Azure ML job lineage and verifying all downloaded artifacts. See [model selection and registry evidence](docs/model-registry.md).
 
-- **Phases 9 + 10 — local fallback complete; Azure endpoint blocked:** implemented model-verified XGBoost serving, a loopback API, input validation and aggregate drift/latency monitoring. The one requested Azure Managed Online Endpoint attempt returned an SDK `HttpResponseError`; it was deleted and verified absent, with no retry. See [deployment and monitoring status](docs/deployment-monitoring.md).
+- **Phases 9 + 10 — local fallback complete; Azure endpoint blocked:** implemented model-verified XGBoost serving, a loopback API, input validation and aggregate drift/latency monitoring. The Azure Activity Log shows an asynchronous `SubscriptionNotRegistered` failure but reports the required provider as `[N/A]`; no speculative provider registration or retry was made. See [deployment and monitoring status](docs/deployment-monitoring.md).
 
-- **Phases 11 + 12 — complete:** implemented manual drift/performance triggers, explicit-cost-approved Azure ML retraining, artifact/lineage checks, a strict model-promotion gate, and GitHub CI. No retraining job, candidate registration, scheduled automation, or CI Azure credential was run/configured. See [retraining and CI/CD](docs/retraining-cicd.md).
-- **Phase 13 — complete:** final lifecycle, security, cost and documentation review. Offline tests and infrastructure checks pass; the current Azure workspace has no online endpoint, active job, or allocated CPU node. See the [final architecture and project summary](docs/architecture.md).
+- **Phases 11 + 12 — complete:** implemented manual drift/performance triggers, explicit-cost-approved Azure ML retraining, artifact/lineage checks, a strict model-promotion gate, and GitHub CI. No schedule or CI Azure credential is configured. See [retraining and CI/CD](docs/retraining-cicd.md).
+- **Phase 13 — complete:** final lifecycle, security, cost and documentation review; see the [final architecture and project summary](docs/architecture.md).
+- **Phase 14 — partially validated:** connected and pushed the project to the supplied GitHub repository; hosted CI passes. One explicitly validation-only Azure retraining job completed and was correctly rejected with unchanged incumbent metrics. Azure endpoint activation remains blocked until Support identifies the provider namespace omitted from the Activity Log; no endpoint is retained.
 
-**Scope boundary:** there is no retained production endpoint, scheduled Azure retraining, automated cloud promotion/deployment, Fabric or GPU infrastructure. The verified inference path is local loopback; the Azure endpoint attempt remains blocked pending identification of the exact missing resource provider.
+**Current boundary:** there is no retained production endpoint, scheduled Azure retraining, automatic cloud promotion/deployment, Fabric or GPU infrastructure. The verified inference path is local loopback; real Azure inference and endpoint monitoring remain unavailable pending the exact provider namespace.
 
 ## Architecture
 
@@ -47,7 +50,7 @@ Bicep does not explicitly create ACR, VPN, firewall, private endpoints, a GPU, o
 
 ### Cost and lifecycle
 
-Compute scales to zero, but **the foundation is not guaranteed to cost zero**: storage, operations, retained blobs and service-managed networking can incur charges. The public East US Linux VM estimate for `Standard_D2s_v3` was **USD 0.096/hour while allocated** on 2026-09-26, excluding disks/networking/taxes and contract differences. Zero-node provisioning does not guarantee later regional capacity. No job or billable scale-up is included in read-only validation.
+Compute scales to zero, but **the foundation is not guaranteed to cost zero**: storage, operations, retained blobs and service-managed networking can incur charges. The public East US Linux VM estimate for `Standard_D2s_v3` was **USD 0.096/hour while allocated** on 2026-09-26, excluding disks/networking/taxes and contract differences. Phase 14 ran one validation-only Azure ML job on this existing CPU compute; its exact charge is not available here. Zero-node provisioning does not guarantee later regional capacity.
 
 Key Vault purge protection cannot be disabled after activation; deleted vault names remain reserved during retention. Managed networking cannot be disabled after enablement. No automated delete/purge script is provided. Review dependencies, retained data and Azure ML-managed resources before any separately approved cleanup.
 
@@ -77,7 +80,7 @@ docs\architecture.md         Final architecture diagram, lifecycle and security/
 .tools\                      Ignored isolated infrastructure tooling
 ```
 
-This workspace is folder-backed. Files include Git hygiene rules, but no remote, commit, branch or PR is created automatically. To adopt Git, initialize it explicitly and review `git status` before adding files. Never add `.env.local`, `.azure`, datasets, credentials or generated ML artifacts.
+This workspace is folder-backed but now has a Git repository on `main` connected to <https://github.com/Tanveer-F/EPM-Platform>. The initial project and Phase 14 documentation/CI fixes are pushed. Review `git status` before future commits. Never add `.env.local`, `.azure`, datasets, credentials or generated ML artifacts.
 
 ## Prerequisites
 
@@ -142,4 +145,4 @@ See [the reproducible commands, version semantics and access decisions](docs/dat
 
 Data-asset versions pin a reference, not a WORM lock on blobs. This pipeline never overwrites existing versioned objects and verifies their bytes; privileged external mutation is detected, not made impossible. Production networking and future ML phases remain separate approvals.
 
-The 13 requested project phases are complete. Further enhancements require a separate explicit request.
+Phase 14 is the final project phase. Azure endpoint activation remains blocked on Azure Support identifying the exact missing provider namespace; no further phase is planned.

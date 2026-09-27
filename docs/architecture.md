@@ -6,8 +6,9 @@ EPM Platform is a phase-complete development MLOps reference for NASA C-MAPSS
 remaining-useful-life (RUL) regression. It preserves and validates the original data,
 builds causal engine-bounded features, trains and compares CPU XGBoost and PyTorch
 models, tracks Azure ML/MLflow lineage, registers the selected XGBoost model, and
-provides local scoring, aggregate drift signals, acceptance-gated retraining code and
-GitHub CI.
+provides local scoring, aggregate drift signals, acceptance-gated retraining, and
+GitHub-hosted CI. One validation-only Azure retraining job was completed and rejected
+by the promotion gate; it used a synthetic trigger, not production drift evidence.
 
 The final project intentionally has **no retained managed online endpoint**, scheduled
 Azure retraining, production telemetry pipeline, GitHub Azure credentials, GPU, or
@@ -63,7 +64,8 @@ flowchart LR
 
 The diagram distinguishes implemented control/data flows from gated or local-only
 flows: the dashed retraining edges describe the approved, explicitly operator-triggered
-code path, not an active schedule or a job run. Workspace Application Insights and
+code path. One validation-only job has exercised that path, but there is no active
+schedule or production drift/performance input. Workspace Application Insights and
 Log Analytics are dependencies; local request monitoring is not currently exported
 to those services.
 
@@ -76,8 +78,8 @@ to those services.
 | Baseline and deep learning | Reproducible XGBoost and CPU PyTorch training in Azure ML v2 command jobs, with common evaluation. XGBoost selected on test RMSE and asymmetric NASA score. See [baseline results](baseline-results.md) and [PyTorch comparison](pytorch-results.md). |
 | Tracking and registry | MLflow run evidence; registered Azure ML custom model `epm-cmapss-rul-xgboost:1`, with source job lineage. See [registry record](model-registry.md). |
 | Inference and monitoring | Strict native-model-verified XGBoost scoring, loopback HTTP API and payload-free aggregate monitoring. Azure endpoint was not retained; cloud endpoint metrics are not live. See [deployment and monitoring](deployment-monitoring.md). |
-| Retraining and promotion | Drift/performance trigger planner, explicit remote-cost approval, verified candidate artifacts and metrics, registry incumbent check, conditional registration. Not scheduled or run. See [retraining policy](retraining-cicd.md). |
-| CI/CD | GitHub Actions tests, lint, isolated PyTorch/MLflow tests, Bicep compile/security contracts, without Azure credentials or billable ML jobs. See [workflow](../.github/workflows/ci.yml). |
+| Retraining and promotion | One Azure ML command job validated the training/artifact/acceptance path with a marked synthetic trigger; identical incumbent metrics were rejected, with no new model version. No real field signal or schedule. See [retraining policy](retraining-cicd.md). |
+| CI/CD | Public GitHub repository `Tanveer-F/EPM-Platform`; hosted Windows CI passed on the complete source tree, including data tests, PyTorch/MLflow, lint and Bicep contracts. CI uses no Azure credentials or billable Azure jobs. See [workflow](../.github/workflows/ci.yml) and [successful run](https://github.com/Tanveer-F/EPM-Platform/actions/runs/36300859381). |
 
 ## Security and operational boundaries
 
@@ -120,4 +122,6 @@ training, endpoint, or Azure resource is needed for the normal test suite.
 | Data/model integrity | Raw archive, curated bundle, ML-ready manifest, baseline outputs and registered-model artifact hashes verified. |
 | Local inference | Real-model API smoke test passed for 20 representative engine histories; PyTorch checkpoint reload produced a finite nonnegative prediction. |
 | Current Azure state | Read-only inventory: `cpu-dev` provisioning succeeded, min=0/max=1 and **0 nodes**; **0 active jobs** and **0 online endpoints**. |
-| CI workflow | Workflow YAML and policy JSON parse successfully. A hosted GitHub Actions run was not possible from this folder-backed workspace, which has no Git remote. |
+| GitHub-hosted CI | **Passed** on `main` at commit `accc4b5c642b5b5d7f0b3e247a69d7e430720eef`; all nine workflow steps succeeded. An earlier run exposed an overbroad `/data` ignore rule; it was narrowed to root `/data/` so application sources and tests are included while raw data remains ignored. |
+| Secret review | 127 tracked files scanned. High-entropy findings were project SHA-256 fingerprints and test-only placeholder strings; no real credential or token was found. `.azure`, environments, raw data and generated model artifacts remain excluded. |
+| Azure retraining | Job `epm-baseline-afb4088b7b41` completed on the existing CPU cluster. The validation-only trigger was synthetic; the candidate exactly matched the incumbent and was rejected, so registry version 1 remains the only model version. |

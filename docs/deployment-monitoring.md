@@ -3,18 +3,32 @@
 ## Status and Azure outcome
 
 The local inference and monitoring path is implemented and tested with the registered
-`epm-cmapss-rul-xgboost:1` model. A single authenticated Managed Online Endpoint
-attempt was made with one `Standard_D2s_v3` instance. Azure ML's SDK flow returned
-`HttpResponseError` before endpoint predictions could be verified. Per the cost-control
-instruction, no Azure deployment retry was made. The temporary endpoint was deleted,
-and a subsequent workspace inventory confirmed **zero online endpoints**. No
-deployment remains and no model, workspace, or infrastructure resource was changed.
+`epm-cmapss-rul-xgboost:1` model. The single authenticated Managed Online Endpoint
+attempt used one `Standard_D2s_v3` instance. The Activity Log now provides the
+service-side response: endpoint write `epm-rul-smoke-f93d5264` was accepted with
+HTTP 201 at `2026-09-27T05:10:09Z`, then reached terminal failure at
+`2026-09-27T05:10:25Z`:
 
-The exact service-side cause was not surfaced by the SDK wrapper. The ignored receipt
-`.azure\endpoint-smoke.json` records the temporary endpoint name, failure class and
-verified cleanup state. Transient provisioning may have incurred a small charge; an
-exact amount is not available from this run, and Azure billing data can be delayed.
-The pre-attempt estimate was approximately **USD 0.096/hour** for one active
+```text
+ResourceOperationFailure: The resource operation completed with terminal provisioning state 'Failed'.
+SubscriptionNotRegistered: Resource provider [N/A] isn't registered with Subscription [N/A].
+```
+
+The failed write correlation ID is
+`1431c605-584b-410a-badd-2d8db2f843b0`. The event does **not** contain the resource
+provider namespace (`[N/A]`) or additional details. Read-only checks show
+`Microsoft.MachineLearningServices`, `Microsoft.ContainerRegistry`,
+`Microsoft.Network`, `Microsoft.Storage` and `Microsoft.Compute` are registered,
+but that does not establish which other provider, if any, Azure requires. The endpoint
+was deleted successfully at `2026-09-27T05:10:59Z`; the current inventory is empty.
+No deployment or Azure inference request completed.
+
+Because the actual error omits the provider name, no provider was guessed or registered
+and no retry was made. The exact namespace must come from Azure Support or a more
+detailed service-side diagnostic before a safe deployment retry. The ignored receipt
+`.azure\endpoint-smoke.json` retains cleanup evidence. Transient provisioning may
+have incurred a small charge; an exact amount is not available and billing can be
+delayed. The estimate was approximately **USD 0.096/hour** for one active
 `Standard_D2s_v3` instance, excluding ancillary charges.
 
 Azure Monitor/Application Insights endpoint monitoring is therefore **not live**.

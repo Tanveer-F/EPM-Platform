@@ -2,10 +2,9 @@
 
 ## Current scope and cost boundary
 
-The workflow is implemented but **no retraining job, model registration, endpoint
-deployment or Azure resource change was run for these phases**. The existing managed
-CPU cluster remains configured to scale from zero to one node; no compute was started.
-Automated scheduled runs and Azure CI credentials are intentionally not configured.
+At the Phase 11 + 12 completion checkpoint, **no retraining job, model registration,
+endpoint deployment or Azure resource change had been run for those phases**.
+Automated scheduled runs and Azure CI credentials remain intentionally unconfigured.
 
 The orchestration reuses the existing Azure ML v2 baseline command job, CPU
 configuration, curated `sklearn-1.5:54` environment, ML-ready asset and XGBoost model
@@ -13,6 +12,25 @@ name. It does not introduce an Azure service or change the training recipe. A re
 job requires the explicit `--approve-costs` flag; the existing job limit is 60 minutes
 on one `Standard_D2s_v3` node. A local plan and all CI checks are free of Azure compute
 usage.
+
+## Phase 14 Azure validation
+
+One controlled Azure ML command job, `epm-baseline-afb4088b7b41`, was run to verify
+the remote retraining, artifact-integrity and candidate acceptance path. Because no
+real production drift or labeled field-performance signal exists, the trigger was
+explicitly synthetic and validation-only (`phase14_validation_only`); it is not
+evidence of actual drift and must not be used to justify operational retraining.
+The job used the existing one-node `Standard_D2s_v3` CPU cluster and the pinned
+training asset/environment. No second job or sweep was run.
+
+The job completed and reproduced the incumbent exactly: test RMSE **30.8071668**,
+mean NASA score **72.9221761**, and model SHA-256
+`e58cb0a9285c364856361ede3c10de16facc7c4f2a48b1ae643515db39d5d0fe`. The
+acceptance gate correctly **rejected** the candidate because it did not meet the
+required 1% RMSE improvement. No new model version was registered. This validates
+the Azure ML training-and-rejection path, not a production signal, a promotion, or
+an automated schedule. The retraining receipt and synthetic trigger remain in the
+ignored `.azure` directory.
 
 ## Trigger policy
 
