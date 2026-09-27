@@ -27,7 +27,7 @@ dist/
 *.pfx
 *.p12
 *.log
-data/
+/data/
 artifacts/
 mlruns/
 outputs/
