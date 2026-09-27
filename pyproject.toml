@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epm-platform"
+version = "0.1.0"
+description = "Reproducible predictive-maintenance data, features and classical ML baseline"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "azure-ai-ml>=1,<2",
+    "azure-identity>=1,<2",
+    "azure-storage-blob>=12.30,<13",
+    "pyarrow>=25,<26",
+]
+
+[project.optional-dependencies]
+baseline = [
+    "xgboost-cpu==3.4.1",
+    "numpy>=2,<3",
+]
+dev = [
+    "pip-tools>=7,<8",
+    "pytest>=8,<10",
+    "ruff>=0.12,<1",
+    "setuptools>=75",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --import-mode=importlib"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

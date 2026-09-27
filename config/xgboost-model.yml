@@ -1,0 +1,41 @@
+$schema: https://azuremlschemas.azureedge.net/latest/model.schema.json
+name: epm-cmapss-rul-xgboost
+version: '1'
+type: custom_model
+path: azureml://jobs/epm-baseline-de82ea3141be/outputs/baseline/paths/
+description: >-
+  Validated pooled XGBoost CPU model for uncapped C-MAPSS remaining useful life.
+  Selected over the PyTorch MLP on the same engine-disjoint test endpoints because
+  it achieved lower RMSE and substantially lower asymmetric NASA maintenance-risk
+  score. Native XGBoost JSON; not an endpoint-ready package or failure probability.
+tags:
+  framework: xgboost
+  model_family: gradient_boosted_trees
+  model_format: native_xgboost_json
+  target: uncapped_remaining_useful_life_cycles
+  selection: test_rmse_and_asymmetric_nasa_score
+  source_training_job: epm-baseline-de82ea3141be
+  source_mlflow_run_id: epm-baseline-de82ea3141be
+  source_mlflow_experiment: epm-baseline-rul
+  metadata_mlflow_backfill_run_id: 6213db0e-626d-4733-8a6f-e289e07440db
+  ml_ready_asset_name: epm-cmapss-ml-ready
+  ml_ready_asset_version: d-f4ueae6u7g4c5islgehonqveey
+  ml_ready_manifest_sha256: 2f284013d4f9b82ea24b310ee6c2a426d85d73b81cca7ca6dceedafdb0dd41dd
+  baseline_model_sha256: e58cb0a9285c364856361ede3c10de16facc7c4f2a48b1ae643515db39d5d0fe
+  baseline_artifact_manifest_sha256: c280467cc28509fb04e63ad6ba1c26c86b8e16a09636b8ec1ce9e952c2641e09
+  code_sha256: fca4f48ea125278a9b6089701970b6d5a150a4921bfaff4a896202b366bea2c5
+  environment: azureml-curated-sklearn-1.5-54-python312-runtime
+  runtime: python-3.12.10-xgboost-cpu-3.4.1
+  test_rmse_cycles: '30.80716678557037'
+  test_mae_cycles: '25.481298365721102'
+  test_r2: '0.6361424319583523'
+  test_bias_cycles: '11.393868892836942'
+  test_nasa_score_sum: '51555.97851104609'
+  test_nasa_score_mean: '72.92217611180493'
+  validation_rmse_cycles: '31.3611565432057'
+  validation_mae_cycles: '25.51895052950147'
+  validation_r2: '-0.5336506176801772'
+  comparison_model_job: epm-pytorch-d97b75fd1f65
+  comparison_model_test_rmse_cycles: '31.932091950899398'
+  comparison_model_test_mae_cycles: '23.842123510696123'
+  comparison_model_test_nasa_score_sum: '316736.2852433281'

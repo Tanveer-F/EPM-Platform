@@ -1,0 +1,252 @@
+{
+  "job_name": "epm-baseline-de82ea3141be",
+  "metrics": {
+    "engine_counts": {
+      "test": 707,
+      "train": 567,
+      "validation": 142
+    },
+    "model": {
+      "attempted_boosting_rounds": 86,
+      "best_iteration": 35,
+      "best_validation_rmse_raw": 31.36115665318529,
+      "configuration": {
+        "early_stopping_rounds": 50,
+        "explainability": "validation_tree_shap_and_training_gain",
+        "model_name": "xgboost-rul-baseline",
+        "num_boost_round": 600,
+        "parameters": {
+          "colsample_bytree": 1.0,
+          "device": "cpu",
+          "eta": 0.05,
+          "eval_metric": "rmse",
+          "gamma": 0.0,
+          "lambda": 5.0,
+          "max_bin": 256,
+          "max_depth": 6,
+          "min_child_weight": 5,
+          "nthread": 2,
+          "objective": "reg:squarederror",
+          "seed": 42,
+          "subsample": 1.0,
+          "tree_method": "hist"
+        },
+        "prediction_floor": 0.0,
+        "schema_version": 1,
+        "target": "uncapped_rul"
+      },
+      "feature_columns": [
+        "cycle",
+        "setting_1",
+        "setting_2",
+        "setting_3",
+        "sensor_01",
+        "sensor_02",
+        "sensor_03",
+        "sensor_04",
+        "sensor_05",
+        "sensor_06",
+        "sensor_07",
+        "sensor_08",
+        "sensor_09",
+        "sensor_10",
+        "sensor_11",
+        "sensor_12",
+        "sensor_13",
+        "sensor_14",
+        "sensor_15",
+        "sensor_16",
+        "sensor_17",
+        "sensor_18",
+        "sensor_19",
+        "sensor_20",
+        "sensor_21",
+        "sensor_03_mean10",
+        "sensor_03_slope10",
+        "sensor_04_mean10",
+        "sensor_04_slope10",
+        "sensor_11_mean10",
+        "sensor_11_slope10",
+        "setting_1_mean10",
+        "setting_2_mean10",
+        "setting_3_mean10",
+        "history_count"
+      ],
+      "prediction_iteration_range": [
+        0,
+        36
+      ],
+      "sha256": "e58cb0a9285c364856361ede3c10de16facc7c4f2a48b1ae643515db39d5d0fe",
+      "tree_count": 36
+    },
+    "provenance": {
+      "baseline_config_file_sha256": "b9e5dab5dd5fe7974d76ea35ef3a8f39bab6679b691bd5274ec1505ab9b33e17",
+      "baseline_config_sha256": "4271f4cd254ebc81c664f18c407f2c0d0ee415959d5a1fbfab28a10847951497",
+      "feature_config_sha256": "5e69e6ac31eaa83fbfca5202cc3f54be8a26555d026d6754fec87acdfc4e7619",
+      "ml_ready_files": [
+        {
+          "path": "feature-summary.json",
+          "sha256": "aaa1ae95f7d02ef99ecb39d40e6f0e4f407938d9857656c90bf944c50edea04a",
+          "size_bytes": 1029
+        },
+        {
+          "path": "splits.json",
+          "sha256": "abf47a68133af8dd660580bbcdde1f468e58d557081268650279695c3b073ef7",
+          "size_bytes": 162615
+        },
+        {
+          "path": "test.parquet",
+          "sha256": "9401399ecea0bff6075e8322928000f4d5340cfc057c7ed2e79f0101db007f8c",
+          "size_bytes": 86853
+        },
+        {
+          "path": "train.parquet",
+          "sha256": "06f6c5a9370b69c667c86307a4de4c92261d15f77ff915b2ad67fd721eb1f110",
+          "size_bytes": 9614526
+        },
+        {
+          "path": "validation.parquet",
+          "sha256": "ec3488befd442604da1d4b5f67dd3d4f666b0a8887e1a5541cdef7bcf199044a",
+          "size_bytes": 30610
+        }
+      ],
+      "ml_ready_manifest_sha256": "2f284013d4f9b82ea24b310ee6c2a426d85d73b81cca7ca6dceedafdb0dd41dd",
+      "source": {
+        "asset_name": "epm-cmapss-curated",
+        "asset_version": "d-xjsfezqpozevgso26sct6tpodm",
+        "manifest_sha256": "ba6452660f76495349daf4853f4dee1b511a299ead831d150dab757340f33640"
+      }
+    },
+    "row_counts": {
+      "test": 707,
+      "train": 128967,
+      "validation": 142
+    },
+    "runtime": {
+      "machine": "x86_64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pyarrow": "25.0.1",
+        "scipy": "1.18.1",
+        "xgboost": "3.4.1",
+        "xgboost-cpu": "3.4.1"
+      },
+      "python": "3.12.10",
+      "system": "Linux"
+    },
+    "schema_version": 1,
+    "seed": 42,
+    "test": {
+      "overall": {
+        "bias": 11.393868892836942,
+        "count": 707,
+        "mae": 25.481298365721102,
+        "mean_nasa_score": 72.92217611180493,
+        "nasa_score": 51555.97851104609,
+        "r2": 0.6361424319583523,
+        "r2_undefined_reason": null,
+        "rmse": 30.80716678557037
+      },
+      "per_subset": {
+        "FD001": {
+          "bias": 12.333852081298827,
+          "count": 100,
+          "mae": 20.592920989990233,
+          "mean_nasa_score": 15.718934523277792,
+          "nasa_score": 1571.8934523277792,
+          "r2": 0.6648792643488881,
+          "r2_undefined_reason": null,
+          "rmse": 24.056388147964796
+        },
+        "FD002": {
+          "bias": 8.154283560380973,
+          "count": 259,
+          "mae": 25.57257893094685,
+          "mean_nasa_score": 52.37481536925914,
+          "nasa_score": 13565.077180638116,
+          "r2": 0.670146053164945,
+          "r2_undefined_reason": null,
+          "rmse": 30.88672794704131
+        },
+        "FD003": {
+          "bias": 21.539862518310546,
+          "count": 100,
+          "mae": 25.513721771240235,
+          "mean_nasa_score": 159.21532238380942,
+          "nasa_score": 15921.532238380943,
+          "r2": 0.41549790251693475,
+          "r2_undefined_reason": null,
+          "rmse": 31.648086694805848
+        },
+        "FD004": {
+          "bias": 10.30699356909721,
+          "count": 248,
+          "mae": 27.344015021477976,
+          "mean_nasa_score": 82.65111145040021,
+          "nasa_score": 20497.475639699252,
+          "r2": 0.6393616910613744,
+          "r2_undefined_reason": null,
+          "rmse": 32.74326560410426
+        }
+      }
+    },
+    "validation": {
+      "overall": {
+        "bias": 15.88763484148912,
+        "count": 142,
+        "mae": 25.51895052950147,
+        "mean_nasa_score": 125.95190521988421,
+        "nasa_score": 17885.170541223557,
+        "r2": -0.5336506176801772,
+        "r2_undefined_reason": null,
+        "rmse": 31.3611565432057
+      },
+      "per_subset": {
+        "FD001": {
+          "bias": 16.358790779113768,
+          "count": 20,
+          "mae": 23.158661460876466,
+          "mean_nasa_score": 18.047712982567774,
+          "nasa_score": 360.95425965135547,
+          "r2": -0.16179889981201856,
+          "r2_undefined_reason": null,
+          "rmse": 26.49691855943632
+        },
+        "FD002": {
+          "bias": 12.0135586811946,
+          "count": 52,
+          "mae": 21.13595515031081,
+          "mean_nasa_score": 36.937463354502434,
+          "nasa_score": 1920.7480944341264,
+          "r2": -0.5352305226050003,
+          "r2_undefined_reason": null,
+          "rmse": 27.223332350703767
+        },
+        "FD003": {
+          "bias": 25.508016967773436,
+          "count": 20,
+          "mae": 28.591812133789062,
+          "mean_nasa_score": 517.6440857503286,
+          "nasa_score": 10352.881715006572,
+          "r2": -1.446774517414437,
+          "r2_undefined_reason": null,
+          "rmse": 35.91870847276061
+        },
+        "FD004": {
+          "bias": 15.880058822631836,
+          "count": 50,
+          "mae": 29.792236709594725,
+          "mean_nasa_score": 105.01172944263013,
+          "nasa_score": 5250.5864721315065,
+          "r2": -0.5631848254223701,
+          "r2_undefined_reason": null,
+          "rmse": 35.007892466976536
+        }
+      }
+    }
+  },
+  "metrics_sha256": "e4d55a802fcd7b55f2fb4293d1a605b832a86db5fe2e1d903ebb7e9b32a5d189",
+  "ml_ready_manifest_sha256": "2f284013d4f9b82ea24b310ee6c2a426d85d73b81cca7ca6dceedafdb0dd41dd",
+  "schema_version": 1,
+  "target": "uncapped_rul"
+}

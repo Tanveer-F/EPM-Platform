@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "model_name": "pytorch-mlp-rul",
+  "target": "uncapped_rul",
+  "input_features": 35,
+  "hidden_sizes": [64, 32],
+  "activation": "relu",
+  "dropout": 0.1,
+  "seed": 42,
+  "device": "cpu",
+  "threads": 2,
+  "batch_size": 512,
+  "max_epochs": 100,
+  "patience": 12,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "loss": "engine_weighted_mse",
+  "preprocessing": "train_only_feature_and_target_standardization",
+  "prediction_floor": 0.0,
+  "selection": "validation_rmse",
+  "gradient_clip_norm": 5.0
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "recipe_version": "1",
+  "source": {
+    "asset_name": "epm-cmapss-curated",
+    "asset_version": "d-xjsfezqpozevgso26sct6tpodm",
+    "manifest_sha256": "ba6452660f76495349daf4853f4dee1b511a299ead831d150dab757340f33640"
+  },
+  "subsets": ["FD001", "FD002", "FD003", "FD004"],
+  "target": "uncapped_rul",
+  "features": {
+    "window": 10,
+    "trend_sensors": ["sensor_03", "sensor_04", "sensor_11"],
+    "setting_means": true,
+    "history_count": true
+  },
+  "split": {
+    "strategy": "engine_hash_holdout",
+    "seed": 42,
+    "validation_fraction": 0.2,
+    "validation_cut_min_fraction": 0.5,
+    "validation_cut_max_fraction": 0.8
+  },
+  "weighting": "equal_training_engine"
+}

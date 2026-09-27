@@ -1,0 +1,2 @@
+# Isolated infrastructure validation tooling; never installed in the application environment.
+checkov==3.3.19

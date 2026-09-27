@@ -1,0 +1,7 @@
+# Isolated CPU training + basic Azure MLflow connector, not the project orchestration environment.
+numpy==2.5.3
+pyarrow==25.0.1
+xgboost-cpu==3.4.1
+mlflow-skinny==3.15.0
+azureml-mlflow==1.62.0.post6
+torch @ https://download-r2.pytorch.org/whl/cpu/torch-2.14.0%2Bcpu-cp312-cp312-win_amd64.whl#sha256=738cd9237bf63443a5e5f9652e5115f7b0510b089636a43d4011e9fccede714f

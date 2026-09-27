@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "model_name": "xgboost-rul-baseline",
+  "target": "uncapped_rul",
+  "parameters": {
+    "objective": "reg:squarederror",
+    "eval_metric": "rmse",
+    "tree_method": "hist",
+    "device": "cpu",
+    "nthread": 2,
+    "seed": 42,
+    "eta": 0.05,
+    "max_depth": 6,
+    "min_child_weight": 5,
+    "subsample": 1.0,
+    "colsample_bytree": 1.0,
+    "lambda": 5.0,
+    "gamma": 0.0,
+    "max_bin": 256
+  },
+  "num_boost_round": 600,
+  "early_stopping_rounds": 50,
+  "prediction_floor": 0.0,
+  "explainability": "validation_tree_shap_and_training_gain"
+}

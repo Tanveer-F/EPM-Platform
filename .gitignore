@@ -1,0 +1,39 @@
+# Machine-specific Azure context, generated templates, and reports
+.azure/
+.env
+.env.*
+!config/.env.example
+*.local.json
+infra/**/*.json
+!infra/bicepconfig.json
+
+# Python environments, caches, packages and test outputs
+.venv/
+.venv-*/
+.tools/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Credentials, keys, datasets and generated ML artifacts
+*.pem
+*.key
+*.pfx
+*.p12
+*.log
+data/
+artifacts/
+mlruns/
+outputs/
+
+# Local editors and OS files
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

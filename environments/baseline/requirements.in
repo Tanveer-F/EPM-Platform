@@ -1,0 +1,4 @@
+# CPU-only model runtime: no Azure SDK, MLflow, PyTorch or CUDA dependencies.
+xgboost-cpu==3.4.1
+numpy>=2,<3
+pyarrow==25.0.1

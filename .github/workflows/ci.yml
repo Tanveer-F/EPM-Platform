@@ -1,0 +1,60 @@
+name: EPM CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: epm-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install locked development dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -r requirements-dev.txt
+          python -m pip install --no-deps --no-build-isolation -e .
+          python -m pip check
+
+      - name: Run tests, including local inference and retraining gates
+        run: python -m pytest tests -q --disable-warnings -p no:cacheprovider
+
+      - name: Install isolated CPU PyTorch and MLflow test runtime
+        run: |
+          python -m venv .venv-torch
+          .\.venv-torch\Scripts\python.exe -m pip install --disable-pip-version-check -r environments\pytorch\requirements-windows.txt -r environments\pytorch\requirements-test.txt
+          .\.venv-torch\Scripts\python.exe -m pip check
+
+      - name: Test synthetic PyTorch training and MLflow tracking
+        run: |
+          $env:PYTHONPATH = "src"
+          .\.venv-torch\Scripts\python.exe -m pytest tests\deep_learning\test_training.py tests\deep_learning\test_tracking.py -q --disable-warnings -p no:cacheprovider
+
+      - name: Lint Python
+        run: python -m ruff check --no-cache src\epm_platform tests
+
+      - name: Validate Bicep and infrastructure contracts
+        run: |
+          az bicep install
+          powershell -NoProfile -ExecutionPolicy RemoteSigned -File .\scripts\Test-Infrastructure.ps1

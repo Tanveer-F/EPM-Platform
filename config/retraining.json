@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "model_name": "epm-cmapss-rul-xgboost",
+  "training_asset": {
+    "name": "epm-cmapss-ml-ready",
+    "version": "d-f4ueae6u7g4c5islgehonqveey",
+    "manifest_sha256": "2f284013d4f9b82ea24b310ee6c2a426d85d73b81cca7ca6dceedafdb0dd41dd"
+  },
+  "incumbent": {
+    "version": "1",
+    "model_sha256": "e58cb0a9285c364856361ede3c10de16facc7c4f2a48b1ae643515db39d5d0fe",
+    "test_engine_count": 707,
+    "test_rmse_cycles": 30.80716678557037,
+    "test_mean_nasa_score": 72.92217611180493
+  },
+  "triggers": {
+    "minimum_drift_batch": 20,
+    "minimum_labeled_samples": 20,
+    "performance_degradation_ratio": 1.1
+  },
+  "promotion": {
+    "minimum_rmse_improvement_fraction": 0.01,
+    "maximum_nasa_score_regression_ratio": 1.0
+  }
+}
