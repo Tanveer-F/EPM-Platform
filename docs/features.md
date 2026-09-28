@@ -1,7 +1,7 @@
-# Phase 3: causal C-MAPSS features
+# Phase 3: causal run-to-failure benchmark features
 
 This cloud-agnostic pipeline builds one pooled, **uncapped remaining-useful-life (RUL)
-regression** dataset from all four C-MAPSS subsets. It does not fit a model, scaler,
+regression** dataset from all four run-to-failure benchmark subsets. It does not fit a model, scaler,
 imputer, operating-condition classifier, or feature selector. No Azure SDK is imported.
 Phase 2 remains the immutable, lossless source of observations and supplied test labels.
 
