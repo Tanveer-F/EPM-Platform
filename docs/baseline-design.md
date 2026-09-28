@@ -1,4 +1,4 @@
-# Pooled C-MAPSS RUL baseline
+# Pooled run-to-failure benchmark RUL baseline
 
 ## Scope and reviewed recipe
 
@@ -86,7 +86,7 @@ Validation and test each include overall and per-subset engine-equal metrics:
 - R², or JSON `null` with an explicit reason for constant actual RUL or fewer than
   two engines.
 - Bias, with `error = prediction - actual`.
-- NASA score **sum**, and mean score per engine:
+- asymmetric RUL score **sum**, and mean score per engine:
   `expm1(-error / 13)` for negative error, otherwise `expm1(error / 10)`.
 
 Overpredicting life is more severely penalized because it implies late
@@ -128,7 +128,7 @@ prediction is performed once after serialization and no further fitting occurs.
 .venv\Scripts\python.exe -m ruff check src\epm_platform\baseline\training.py tests\baseline\test_training.py
 ```
 
-Tests use small synthetic 35-feature CPU datasets, not full local C-MAPSS training.
+Tests use small synthetic 35-feature CPU datasets, not full local run-to-failure benchmark training.
 They cover known metrics and NASA asymmetry, undefined R² and overflow, strict
 config validation, grouping/leakage checks, test-data independence, deterministic
 training, artifact hashes and native-model reload/selected-tree consistency.
