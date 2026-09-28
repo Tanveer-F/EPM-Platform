@@ -87,9 +87,9 @@ The later phases add an **operator-triggered** retraining/promotion path and Git
 validation workflow without adding Azure services. Drift and supplied labeled
 performance evidence are evaluated locally; an Azure ML baseline job requires an
 explicit cost-approval flag. Candidate registration is gated by verified lineage and
-the documented RMSE/NASA score thresholds. There is no schedule, CI Azure identity,
+the documented RMSE/asymmetric RUL score thresholds. There is no schedule, CI Azure identity,
 automatic deployment, or retraining run. The reviewed limits—including repeat use of
-the fixed C-MAPSS public test set—are in [the final architecture summary](architecture.md)
+the fixed public run-to-failure benchmark test set—are in [the final architecture summary](architecture.md)
 and [retraining policy](retraining-cicd.md).
 
 Final read-only workspace validation confirms the registered ML-ready data and model,
