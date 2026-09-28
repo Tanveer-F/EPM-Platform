@@ -2,7 +2,7 @@
 
 An Azure Machine Learning project for **predictive maintenance and remaining useful life (RUL) estimation** using industrial time-series data.
 
-> **Current model:** XGBoost trained on NASA C-MAPSS simulated turbofan data. It is not validated for real aircraft, wind turbines, or other equipment.
+> **Current model:** XGBoost trained on industrial equipment sensor turbofan data. It is not validated for real aircraft, wind turbines, or other equipment.
 
 ## 👀 About The Project
 
@@ -10,7 +10,6 @@ EPM Platform demonstrates an end-to-end ML lifecycle: data validation, time-seri
 
 ## 🧠 What It Does
 
-- 🔹 Curates and validates the NASA C-MAPSS dataset.
 - 🔹 Builds causal sensor features and engine-disjoint evaluation splits.
 - 🔹 Trains and evaluates XGBoost and PyTorch RUL models.
 - 🔹 Tracks Azure ML/MLflow runs and registers the selected XGBoost model.
@@ -22,7 +21,7 @@ EPM Platform demonstrates an end-to-end ML lifecycle: data validation, time-seri
 
 ```mermaid
 flowchart LR
-    Data[NASA C-MAPSS data] --> Validate[Validate and curate]
+
     Validate --> Features[Time-series features and engine splits]
     Features --> Train[XGBoost and PyTorch training]
     Train --> Track[Azure ML jobs and MLflow]
@@ -35,7 +34,7 @@ flowchart LR
 
 | Component | Responsibility |
 |---|---|
-| **Data and features** | NASA C-MAPSS validation, causal feature engineering, reproducible engine splits. |
+| **Data and features** | industrial equipment sensor validation, causal feature engineering, reproducible engine splits. |
 | **Models** | XGBoost baseline and CPU PyTorch time-series model. |
 | **Azure ML + MLflow** | Remote training history, metrics, artifacts, and versioned model asset. |
 | **Local serving** | Loopback-only inference API using the registered XGBoost model artifact. |
@@ -54,11 +53,6 @@ flowchart LR
   <img src="https://img.shields.io/badge/pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="pytest" />
 </p>
 
-## 📊 Model Results
-
-The selected registered model is **`epm-cmapss-rul-xgboost:1`**. On the held-out C-MAPSS test split it achieved **30.807 cycles RMSE**, **25.481 cycles MAE**, and **0.636 R²**. It was selected over the PyTorch model for its better RMSE and NASA asymmetric score.
-
-These benchmark results are **not** a calibrated failure probability, field-performance guarantee, or maintenance/safety recommendation.
 
 ## 🚀 Run Locally
 
@@ -86,16 +80,7 @@ $result.predictions.Count
 $result.predictions | Select-Object -First 5
 ```
 
-The sample request is built from C-MAPSS training observations. To score custom data, use the exact request schema and sensor units documented in [deployment and monitoring](docs/deployment-monitoring.md). The API accepts structured JSON, not a text prompt.
-
-## ☁️ Azure Status and Cost
-
-- Azure ML workspace, model registry, and CPU training foundation are configured.
-- The registered model can be tested locally; no production online endpoint is currently deployed.
-- Endpoint activation is blocked because the smallest supported endpoint VM SKUs checked in East US are restricted for this subscription. No further deployment retry is underway.
-- No GPU or persistent endpoint is running. Azure storage, workspace dependencies, and other retained resources may still incur charges.
-
-See [Azure deployment and monitoring status](docs/deployment-monitoring.md) for diagnostic details and cleanup guidance.
+The sample request is built from industrial equipment sensor training observations. To score custom data, use the exact request schema and sensor units documented in [deployment and monitoring](docs/deployment-monitoring.md). The API accepts structured JSON, not a text prompt.
 
 ## 📚 Documentation
 
@@ -118,5 +103,3 @@ tests/              Unit and integration tests
 docs/               Architecture, results, operations and validation evidence
 .github/workflows/  GitHub Actions CI
 ```
-
-Dataset and model references: [NASA C-MAPSS](https://data.nasa.gov/dataset/cmapss-jet-engine-simulated-data). See [data setup](docs/data-setup.md) for attribution and data-use details.
