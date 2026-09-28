@@ -2,7 +2,7 @@
 
 ## Project summary
 
-EPM Platform is a phase-complete development MLOps reference for NASA C-MAPSS
+EPM Platform is a phase-complete development MLOps reference for industrial run-to-failure benchmark
 remaining-useful-life (RUL) regression. It preserves and validates the original data,
 builds causal engine-bounded features, trains and compares CPU XGBoost and PyTorch
 models, tracks Azure ML/MLflow lineage, registers the selected XGBoost model, and
@@ -22,7 +22,7 @@ loopback inference is the verified serving path, not a production public API.
 ```mermaid
 flowchart LR
     subgraph Dev["Developer / GitHub (no Azure CI credentials)"]
-        Raw["NASA C-MAPSS source<br/>immutable raw archive"]
+        Raw["industrial run-to-failure benchmark source<br/>immutable raw archive"]
         Data["Validate and curate<br/>versioned Parquet + quality evidence"]
         Features["Causal feature pipeline<br/>engine-disjoint splits"]
         XGB["CPU XGBoost baseline"]
@@ -75,7 +75,7 @@ to those services.
 |---|---|
 | Data | Original NASA archive retained unchanged; schema/data-quality validation; curated, versioned Azure ML asset. See [data setup](data-setup.md), [quality report](data-quality-report.md), and [Phase 2 evidence](phase-2-validation.md). |
 | Features and splits | 35 causal features; history bounded by engine; deterministic engine-disjoint train/validation/test. See [feature contract](features.md). |
-| Baseline and deep learning | Reproducible XGBoost and CPU PyTorch training in Azure ML v2 command jobs, with common evaluation. XGBoost selected on test RMSE and asymmetric NASA score. See [baseline results](baseline-results.md) and [PyTorch comparison](pytorch-results.md). |
+| Baseline and deep learning | Reproducible XGBoost and CPU PyTorch training in Azure ML v2 command jobs, with common evaluation. XGBoost selected on test RMSE and asymmetric asymmetric RUL score. See [baseline results](baseline-results.md) and [PyTorch comparison](pytorch-results.md). |
 | Tracking and registry | MLflow run evidence; registered Azure ML custom model `epm-cmapss-rul-xgboost:1`, with source job lineage. See [registry record](model-registry.md). |
 | Inference and monitoring | Strict native-model-verified XGBoost scoring, loopback HTTP API and payload-free aggregate monitoring. Azure endpoint was not retained; cloud endpoint metrics are not live. See [deployment and monitoring](deployment-monitoring.md). |
 | Retraining and promotion | One Azure ML command job validated the training/artifact/acceptance path with a marked synthetic trigger; identical incumbent metrics were rejected, with no new model version. No real field signal or schedule. See [retraining policy](retraining-cicd.md). |
@@ -96,7 +96,7 @@ to those services.
 - Retraining defaults to local planning. Remote submission requires the explicit
   `--approve-costs` flag, reuses the existing one-node CPU cluster/job limit and never
   automatically deploys a registered candidate.
-- The current acceptance benchmark reuses the pinned public 707-engine C-MAPSS test
+- The current acceptance benchmark reuses the pinned public 707-engine run-to-failure benchmark test
   set for comparability. Repeated use can overfit model selection; establish a
   reviewed rolling field-data evaluation before operational promotion.
 - Azure ML CPU scales to zero when idle, but storage, retained artifacts, telemetry
