@@ -6,7 +6,7 @@ The compact PyTorch MLP uses the **same 35 causal features, uncapped RUL targets
 
 Model: 35 → 64 → 32 → 1, ReLU, dropout 0.1. Train-only feature/target standardization is necessary for neural optimization and saved with the checkpoint. Constant training features use scale 1 and remain present. Training uses AdamW, weighted MSE, batch 512, up to 100 epochs, patience 12, two CPU threads and seed 42. The validation checkpoint is restored before final test evaluation. No sweep or refit on validation/test.
 
-The reference in `config\baseline-reference.json` was copied from the verified Phase 4 output; it is not a newly fitted comparator. Its job name and full ML-ready manifest hash are checked. Results must be compared on the original cycles scale, with the same nonnegative prediction floor and RMSE, MAE, R², bias and asymmetric NASA score. Improvements are not assumed in advance.
+The reference in `config\baseline-reference.json` was copied from the verified Phase 4 output; it is not a newly fitted comparator. Its job name and full ML-ready manifest hash are checked. Results must be compared on the original cycles scale, with the same nonnegative prediction floor and RMSE, MAE, R², bias and asymmetric asymmetric RUL score. Improvements are not assumed in advance.
 
 ## Why the runtime is isolated
 
