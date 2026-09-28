@@ -67,7 +67,7 @@ No upper target/prediction cap is applied.
 
 Evaluation reuses `baseline.training.regression_metrics` and its partition/prediction
 helpers without changes: RMSE, MAE, R² (null with an explicit reason when undefined), signed
-bias, NASA sum and NASA mean. Every evaluated engine contributes one equally weighted
+bias, asymmetric RUL score and asymmetric RUL score mean. Every evaluated engine contributes one equally weighted
 endpoint overall and within FD001–FD004, for both validation and test.
 Error is prediction minus true uncapped RUL. NASA uses `expm1(-error / 13)` for negative
 errors and `expm1(error / 10)` otherwise: overpredicting remaining life is more costly.
@@ -85,7 +85,7 @@ verified feature summary, not a test prediction. Mismatches fail rather than pro
 unfair comparison. With no reference, `comparison.json` records `status: not_provided`.
 
 Comparison records original baseline values, MLP values and signed `MLP - baseline`
-deltas for every metric, split and subset. Lower RMSE/MAE/NASA scores are better; higher
+deltas for every metric, split and subset. Lower RMSE/MAE/asymmetric RUL scores are better; higher
 R² is better; signed bias is judged by **absolute distance from zero**, not by becoming
 more negative. Undefined comparisons remain null. Baseline files are never modified.
 The original metrics-file hash is informational because JSON reserialization cannot
