@@ -13,7 +13,7 @@ Successful Azure/MLflow run: `epm-pytorch-d97b75fd1f65`.
 - Same 35 causal features and original engine-disjoint partitions as Phase 4: **128,967 training rows / 567 engines**, **142 validation endpoints**, **707 test endpoints**.
 - Uncapped RUL regression, inverse preprocessing to cycles, predictions floored at zero. No sequence reconstruction, new split, feature-selection change or new data asset.
 - Training-only, engine-weighted population feature/target standardization; constant scales replaced by one without dropping columns. Preprocessing state saved with the model.
-- Metrics use the unchanged Phase 4 regression implementation, with one equal-weight endpoint per evaluated engine. NASA score penalizes optimistic RUL errors more heavily.
+- Metrics use the unchanged Phase 4 regression implementation, with one equal-weight endpoint per evaluated engine. asymmetric RUL score penalizes optimistic RUL errors more heavily.
 - Frozen comparator: XGBoost job `epm-baseline-de82ea3141be`, using the verified original metrics in `config\baseline-reference.json`. No baseline refit.
 
 ## Model and execution
@@ -28,7 +28,7 @@ Job code hash: `41320bfd44f1193a9881f3b3aa612048d452fe66f62c365b08df7151f23cab61
 
 ## Main comparison
 
-Errors and bias are in cycles. Lower is better for RMSE, MAE and NASA scores; higher is better for R². Bias is prediction minus actual; proximity to zero is preferable.
+Errors and bias are in cycles. Lower is better for RMSE, MAE and asymmetric RUL scores; higher is better for R². Bias is prediction minus actual; proximity to zero is preferable.
 
 | Metric | XGBoost baseline | PyTorch MLP | Assessment |
 |---|---:|---:|---|
@@ -39,21 +39,21 @@ Errors and bias are in cycles. Lower is better for RMSE, MAE and NASA scores; hi
 | Test MAE | 25.481 | **23.842** | Better |
 | Test R² | **0.636** | 0.609 | Worse |
 | Test bias | +11.394 | +7.593 | Closer to zero |
-| Test NASA score sum | **51,555.979** | 316,736.285 | Substantially worse |
-| Test NASA mean | **72.922** | 448.000 | Substantially worse |
+| Test asymmetric RUL score sum | **51,555.979** | 316,736.285 | Substantially worse |
+| Test asymmetric RUL score mean | **72.922** | 448.000 | Substantially worse |
 
 **Conclusion:** the MLP improves typical absolute error and mean bias but does **not** improve the overall benchmark. XGBoost remains the stronger reference on RMSE, R² and the safety-sensitive asymmetric score. No model promotion decision or registry action was taken.
 
 ### PyTorch test results by subset
 
-| Subset | Engines | RMSE | MAE | R² | Bias | NASA score sum |
+| Subset | Engines | RMSE | MAE | R² | Bias | asymmetric RUL score sum |
 |---|---:|---:|---:|---:|---:|---:|
 | FD001 | 100 | 23.965 | 17.742 | 0.667 | +3.341 | 3,223.691 |
 | FD002 | 259 | 29.514 | 22.168 | 0.699 | +3.158 | 15,541.162 |
 | FD003 | 100 | 33.596 | 24.205 | 0.341 | +15.914 | 166,002.479 |
 | FD004 | 248 | 36.200 | 27.904 | 0.559 | +10.583 | 131,968.952 |
 
-Large optimistic errors, particularly in FD003/FD004, dominate the exponential NASA score despite improved overall MAE. Negative validation R² remains a concern. Validation uses retrospective 50–80% lifetime cuts, whose target distribution differs from official test endpoints. Neither result establishes field performance or calibrated failure probability. The model is a neural regressor over engineered temporal features, not a learned sequence encoder.
+Large optimistic errors, particularly in FD003/FD004, dominate the exponential asymmetric RUL score despite improved overall MAE. Negative validation R² remains a concern. Validation uses retrospective 50–80% lifetime cuts, whose target distribution differs from official test endpoints. Neither result establishes field performance or calibrated failure probability. The model is a neural regressor over engineered temporal features, not a learned sequence encoder.
 
 ## MLflow verification
 
