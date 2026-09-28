@@ -2,7 +2,7 @@
 
 An Azure Machine Learning project for **predictive maintenance and remaining useful life (RUL) estimation** using industrial time-series data.
 
-> **Current model:** XGBoost trained on industrial equipment sensor turbofan data. It is not validated for real aircraft, wind turbines, or other equipment.
+> **Current model:** XGBoost trained on industrial equipment operational time-series data. It is not validated for real aircraft, wind turbines, or other equipment.
 
 ## 👀 About The Project
 
