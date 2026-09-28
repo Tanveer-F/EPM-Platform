@@ -13,9 +13,9 @@ The comparison uses the same frozen engine-disjoint data, target and evaluation 
 | RMSE (cycles) | **30.807** | 31.932 |
 | MAE (cycles) | 25.481 | **23.842** |
 | R² | **0.636** | 0.609 |
-| NASA score sum (lower is better) | **51,555.979** | 316,736.285 |
+| asymmetric RUL score sum (lower is better) | **51,555.979** | 316,736.285 |
 
-XGBoost was selected because it has lower test RMSE and a substantially lower asymmetric NASA score, an important penalty for optimistic remaining-life estimates. The MLP's better MAE does not outweigh those measures. These are benchmark metrics, not evidence of calibrated failure probability or field performance.
+XGBoost was selected because it has lower test RMSE and a substantially lower asymmetric asymmetric RUL score, an important penalty for optimistic remaining-life estimates. The MLP's better MAE does not outweigh those measures. These are benchmark metrics, not evidence of calibrated failure probability or field performance.
 
 ## Registration and lineage
 
