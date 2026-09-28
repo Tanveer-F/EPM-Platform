@@ -39,7 +39,7 @@ Job code bundle hash: `fca4f48ea125278a9b6089701970b6d5a150a4921bfaff4a896202b36
 
 Units for RMSE, MAE and bias are cycles. Bias is predicted minus actual; positive is optimistic/late-maintenance risk.
 
-| Partition / subset | Engines | RMSE | MAE | R² | Bias | NASA score sum |
+| Partition / subset | Engines | RMSE | MAE | R² | Bias | asymmetric RUL score sum |
 |---|---:|---:|---:|---:|---:|---:|
 | Validation overall | 142 | 31.361 | 25.519 | -0.534 | +15.888 | 17,885.171 |
 | Test overall | 707 | **30.807** | **25.481** | **0.636** | **+11.394** | **51,555.979** |
@@ -48,7 +48,7 @@ Units for RMSE, MAE and bias are cycles. Bias is predicted minus actual; positiv
 | Test FD003 | 100 | 31.648 | 25.514 | 0.415 | +21.540 | 15,921.532 |
 | Test FD004 | 248 | 32.743 | 27.344 | 0.639 | +10.307 | 20,497.476 |
 
-NASA score uses `expm1(-error/13)` for underestimation and `expm1(error/10)` for overestimation, summed over engines; lower is better and values depend on evaluation population. Overall test mean NASA score: **72.922**. No precision/recall/F1/ROC-AUC is reported because the approved task is regression, not a thresholded failure classifier.
+asymmetric RUL score uses `expm1(-error/13)` for underestimation and `expm1(error/10)` for overestimation, summed over engines; lower is better and values depend on evaluation population. Overall test mean asymmetric RUL score: **72.922**. No precision/recall/F1/ROC-AUC is reported because the approved task is regression, not a thresholded failure classifier.
 
 ### Observations and limitations
 
